@@ -1,5 +1,6 @@
 ﻿using AgriIPCA.Core;
 using AgriIPCA.Interfaces;
+using AgriIPCA.IO;
 
 namespace AgriIPCA
 {
@@ -7,7 +8,10 @@ namespace AgriIPCA
     {
         static void Main(string[] args)
         {
-            IEngine engine = new Engine();
+            IWriter writer = new ConsoleWriter();
+            IReader reader = new ConsoleReader();
+            
+            IEngine engine = new Engine(writer, reader);
             engine.Run();
         }
     }

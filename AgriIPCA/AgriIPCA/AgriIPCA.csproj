@@ -44,21 +44,29 @@
   <ItemGroup>
     <Compile Include="Core\CommandManager.cs" />
     <Compile Include="Core\Engine.cs" />
+    <Compile Include="Database\Warehouse.cs" />
     <Compile Include="Interfaces\ICommandManager.cs" />
     <Compile Include="Interfaces\IEngine.cs" />
+    <Compile Include="Interfaces\IFactory.cs" />
+    <Compile Include="Interfaces\IReader.cs" />
+    <Compile Include="Interfaces\IWriter.cs" />
+    <Compile Include="IO\ConsoleReader.cs" />
+    <Compile Include="IO\ConsoleWriter.cs" />
+    <Compile Include="IO\PersonsFactory.cs" />
+    <Compile Include="IO\ProductsFactory.cs" />
+    <Compile Include="Models\Products\Product.cs" />
     <Compile Include="Models\Users\Admin.cs" />
     <Compile Include="Models\Users\Person.cs" />
     <Compile Include="Models\Users\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Unitilies\PreLoginHelper.cs" />
+    <Compile Include="Utilities\PreLoginHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Database\" />
-    <Folder Include="Models\Products\" />
+    <Content Include="Database\persons.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
