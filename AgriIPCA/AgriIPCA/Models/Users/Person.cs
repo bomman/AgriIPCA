@@ -1,4 +1,6 @@
-﻿namespace AgriIPCA.Models.Users
+﻿using System.Text;
+
+namespace AgriIPCA.Models.Users
 {
     public abstract class Person
     {
@@ -20,6 +22,16 @@
         public override string ToString()
         {
             return $"{this.Id};{this.Username};{this.Password};{this.Address}";
+        }
+
+        public virtual string PrintDetails()
+        {
+            StringBuilder output = new StringBuilder();
+
+            output.AppendLine($"Username: {this.Username}");
+            output.AppendLine($"Address: {this.Address}");
+
+            return output.ToString();
         }
     }
 }

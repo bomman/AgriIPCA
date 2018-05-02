@@ -9,6 +9,7 @@ namespace AgriIPCA.Core
         private ICommandManager manager;
         private IWriter writer;
         private IReader reader;
+        private bool isLoggedIn;
 
         public Engine(IWriter writer, IReader reader)
         {
@@ -19,14 +20,24 @@ namespace AgriIPCA.Core
 
         public void Run()
         {
-            this.writer.Write(PrintNotLoggedInMenu());
+           isLoggedIn = false;
 
-            while (true)
+           while (true)
             {
                 try
                 {
-                    int input = int.Parse(this.reader.Read());
-                    this.manager.PreLogInExecute(input);
+                    if (!isLoggedIn)
+                    {
+                        this.writer.Write(PrintNotLoggedInMenu());
+                        int input = int.Parse(this.reader.Read());
+                        this.manager.PreLogInExecute(input, out isLoggedIn);
+                    }
+                    else
+                    {
+                        this.writer.Write(PrintLoggedInMenu());
+                        int input = int.Parse(this.reader.Read());
+                        this.manager.LogInExecute(input, out isLoggedIn);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -39,9 +50,29 @@ namespace AgriIPCA.Core
         {
             StringBuilder output = new StringBuilder();
 
+
+            output.AppendLine(" -----  Menu  ----- ");
             output.AppendLine("1. Create Account");
             output.AppendLine("2. Login");
             output.AppendLine("3. Exit");
+            output.AppendLine(" ------------------ ");
+            output.Append("Enter the number of command you want to execute: ");
+
+            return output.ToString();
+        }
+
+        private string PrintLoggedInMenu()
+        {
+            StringBuilder output = new StringBuilder();
+
+            output.AppendLine(" -----  Menu  ----- ");
+            output.AppendLine("1. List Stocks");
+            output.AppendLine("2. Order Stocks");
+            output.AppendLine("3. Profile Details");
+            output.AppendLine("4. Admin");
+            output.AppendLine("5. Log out");
+            output.AppendLine("6. Exit");
+            output.AppendLine(" ------------------ ");
             output.Append("Enter the number of command you want to execute: ");
 
             return output.ToString();
