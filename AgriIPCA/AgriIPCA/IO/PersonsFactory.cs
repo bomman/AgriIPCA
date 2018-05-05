@@ -15,7 +15,7 @@ namespace AgriIPCA.IO
         {
             StreamWriter writer = new StreamWriter(FileLocation, append: true);
  
-            writer.WriteLine(output);
+            writer.Write(output);
 
             writer.Close();
         }
@@ -27,6 +27,15 @@ namespace AgriIPCA.IO
             reader.Close();
 
             return input;
+        }
+
+        public void Update(string output)
+        {
+            StreamWriter writer = new StreamWriter(FileLocation, append: false);
+
+            writer.Write(output);
+
+            writer.Close();
         }
     }
 }

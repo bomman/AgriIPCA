@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using AgriIPCA.Interfaces;
 using AgriIPCA.IO;
 using AgriIPCA.Models.Products;
@@ -68,6 +69,24 @@ namespace AgriIPCA.Database
         private int SetId()
         {
             return ++personsLastId;
+        }
+
+        public Person UpdateUser(Person user, string username, string password, string address)
+        {
+            Person currentPerson = this.Persons[user.Username];
+            currentPerson.Username = username;
+            currentPerson.Password = password;
+            currentPerson.Address = address;
+
+            StringBuilder output = new StringBuilder();
+            foreach (var person in this.Persons.Values)
+            {
+                output.Append(person.ToString() + "\n");
+            }
+
+            this.personsFactory.Update(output.ToString());
+
+            return currentPerson;
         }
     }
 }

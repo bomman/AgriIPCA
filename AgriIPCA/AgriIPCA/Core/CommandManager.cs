@@ -34,7 +34,7 @@ namespace AgriIPCA.Core
                 case 3:
                     isLoggedIn = true;
                     this.writer.Write(this.loggedInUser.PrintDetails());
-                    // TODO: edit profile
+                    this.writer.Write(this.EditProfile());
                     break;
                 case 4:
                     isLoggedIn = true;
@@ -52,6 +52,36 @@ namespace AgriIPCA.Core
                     isLoggedIn = true;
                     throw new Exception("Invalid command.");
             }
+        }
+
+        private string EditProfile()
+        {
+            this.writer.Write("Do you want to edit your pofile? Y/N");
+            string input = this.reader.Read().ToLower();
+
+            if (input == "n")
+            {
+                throw new Exception("");
+            }
+
+            this.writer.Write("Username: ");
+            string username = this.reader.Read();
+            this.writer.Write("Password: ");
+            string password = this.reader.Read();
+            this.writer.Write("Confirm Password: ");
+            string confirmPassword = this.reader.Read();
+
+            if (password != confirmPassword)
+            {
+                throw new Exception("Not matching passwords.");
+            }
+
+            this.writer.Write("Address: ");
+            string address = this.reader.Read();
+
+            this.loggedInUser = this.warehouse.UpdateUser(this.loggedInUser, username, password, address);
+
+            return "Your profile has been successfully edited.";
         }
 
         private string OrderStocks()

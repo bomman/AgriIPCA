@@ -21,5 +21,10 @@ namespace AgriIPCA.IO
         {
             throw new NotImplementedException();
         }
+
+        public void Update(string output)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

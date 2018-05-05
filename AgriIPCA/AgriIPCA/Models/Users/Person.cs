@@ -29,7 +29,7 @@ namespace AgriIPCA.Models.Users
             StringBuilder output = new StringBuilder();
 
             output.AppendLine($"Username: {this.Username}");
-            output.AppendLine($"Address: {this.Address}");
+            output.Append($"Address: {this.Address}");
 
             return output.ToString();
         }
