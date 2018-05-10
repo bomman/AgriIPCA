@@ -2,28 +2,4 @@
 
 https://pasteboard.co/HhlsGwj.png
 
-### What is this repository for? ###
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+https://alunosipca-my.sharepoint.com/:w:/g/personal/a50551_alunos_ipca_pt/Ef2sWxuqt1xCkbm21h4un3cBGM1tnPkOgFy5yAeKA78XGg?e=V9z6RF
