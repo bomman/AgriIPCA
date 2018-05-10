@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using AgriIPCA.Database;
 using AgriIPCA.Interfaces;
 using AgriIPCA.Models.Users;
@@ -9,14 +10,14 @@ namespace AgriIPCA.Core
     {
         private IWriter writer;
         private IReader reader;
-        private Warehouse warehouse;
-        private Person loggedInUser;
+        private AgriIPCAContext context;
+        private User loggedInUser;
 
-        public CommandManager(IWriter writer, IReader reader)
+        public CommandManager(IWriter writer, IReader reader, AgriIPCAContext context)
         {
             this.writer = writer;
             this.reader = reader;
-            this.warehouse = new Warehouse();
+            this.context = new AgriIPCAContext();
         }
 
         public void LogInExecute(int command, out bool isLoggedIn)
@@ -79,7 +80,11 @@ namespace AgriIPCA.Core
             this.writer.Write("Address: ");
             string address = this.reader.Read();
 
-            this.loggedInUser = this.warehouse.UpdateUser(this.loggedInUser, username, password, address);
+            //update user details
+            this.loggedInUser.Username = username;
+            this.loggedInUser.Password = password;
+            this.loggedInUser.Address = address;
+            this.context.SaveChanges();
 
             return "Your profile has been successfully edited.";
         }
@@ -135,8 +140,10 @@ namespace AgriIPCA.Core
             this.writer.Write("Address: ");
             string address = this.reader.Read();
 
-            Person user = new User(username, password, address);
-            this.warehouse.AddPerson(user);
+            User user = new User(username, password, address);
+            this.context.Users.Add(user);
+            this.context.UserRoles.Add(new UserRole(user.Id, Role.User));
+            this.context.SaveChanges();
 
             return "Account successfully created. Now you can enter 2 to login.";
         }
@@ -148,13 +155,11 @@ namespace AgriIPCA.Core
             this.writer.Write("Password: ");
             string password = this.reader.Read();
 
-
-            if (!this.warehouse.Persons.ContainsKey(username))
+            User targetPerson = this.context.Users.FirstOrDefault(user => user.Username == username);
+            if (targetPerson == null)
             {
                 throw new Exception("Invalid password or username. Enter 2 to login again.");
             }
-
-            Person targetPerson = this.warehouse.Persons[username];
 
             if (targetPerson.Password != password)
             {

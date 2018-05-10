@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using AgriIPCA.Database;
 using AgriIPCA.Interfaces;
 
 namespace AgriIPCA.Core
@@ -7,22 +8,29 @@ namespace AgriIPCA.Core
     public class Engine : IEngine
     {
         private ICommandManager manager;
+        private AgriIPCAContext context;
         private IWriter writer;
         private IReader reader;
         private bool isLoggedIn;
 
         public Engine(IWriter writer, IReader reader)
         {
-            this.manager = new CommandManager(writer, reader);
+            this.context = new AgriIPCAContext();
+            this.manager = new CommandManager(writer, reader, this.context);
             this.writer = writer;
             this.reader = reader;
+            isLoggedIn = false;
         }
 
         public void Run()
         {
-           isLoggedIn = false;
+            if (!this.context.Database.Exists())
+            {
+                this.writer.Write("Creating database...");
+                this.context.Database.Initialize(true);
+            }
 
-           while (true)
+            while (true)
             {
                 try
                 {

@@ -1,5 +1,0 @@
-1;gosho;ivan;ivan
-2;ivanka;gosho;Sliven, Bulgaria
-3;genka;moia lubof;Sofia, Bulgaria
-4;ivan;gosho;Sofia
-5;luck;luck;luck
