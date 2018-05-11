@@ -45,7 +45,6 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -62,7 +61,7 @@
     <Compile Include="IO\ConsoleWriter.cs" />
     <Compile Include="Models\Products\Animal.cs" />
     <Compile Include="Models\Products\AnimalProvided.cs" />
-    <Compile Include="Models\Products\Cerials.cs" />
+    <Compile Include="Models\Products\Cereals.cs" />
     <Compile Include="Models\Products\DairyProduct.cs" />
     <Compile Include="Models\Products\EatingProduct.cs" />
     <Compile Include="Models\Products\Flower.cs" />
@@ -72,8 +71,8 @@
     <Compile Include="Models\Products\Product.cs" />
     <Compile Include="Models\Products\Tree.cs" />
     <Compile Include="Models\Products\Vegatable.cs" />
+    <Compile Include="Models\Users\Role.cs" />
     <Compile Include="Models\Users\User.cs" />
-    <Compile Include="Models\Users\UserRole.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

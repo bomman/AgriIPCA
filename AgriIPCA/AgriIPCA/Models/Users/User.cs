@@ -16,12 +16,21 @@ namespace AgriIPCA.Models.Users
         {
             this.Username = username;
             this.Password = password;
+            this.Role = Role.User;
         }
 
-        public User(string username, string password, string address)
+        public User(string username, string password, Role role)
         {
             this.Username = username;
             this.Password = password;
+            this.Role = role;
+        }
+
+        public User(string username, string password, Role role, string address)
+        {
+            this.Username = username;
+            this.Password = password;
+            this.Role = role;
             this.Address = address;
         }
 
@@ -37,10 +46,8 @@ namespace AgriIPCA.Models.Users
 
         public string Address { get; set; }
 
-        public override string ToString()
-        {
-            return $"{this.Id};{this.Username};{this.Password};{this.Address}";
-        }
+        [Required]
+        public Role Role { get; set; }
 
         public string PrintDetails()
         {
@@ -50,6 +57,11 @@ namespace AgriIPCA.Models.Users
             output.Append($"Address: {this.Address}");
 
             return output.ToString();
+        }
+
+        public override string ToString()
+        {
+            return $"{this.Id};{this.Username};{this.Password};{this.Address}";
         }
     }
 }

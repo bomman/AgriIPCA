@@ -1,8 +1,6 @@
 ﻿using AgriIPCA.Core;
-using AgriIPCA.Database;
 using AgriIPCA.Interfaces;
 using AgriIPCA.IO;
-using AgriIPCA.Models.Users;
 
 namespace AgriIPCA
 {

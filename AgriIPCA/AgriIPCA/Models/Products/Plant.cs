@@ -2,7 +2,7 @@
 {
     public abstract class Plant : Product
     {
-        protected Plant(string name) : base(name)
+        protected Plant(string name, decimal price) : base(name, price)
         {
         }
     }

@@ -1,8 +1,11 @@
-﻿namespace AgriIPCA.Models.Products
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace AgriIPCA.Models.Products
 {
+    [Table("Flowers")]
     public class Flower : Plant
     {
-        public Flower(string name) : base(name)
+        public Flower(string name, decimal price) : base(name, price)
         {
         }
 

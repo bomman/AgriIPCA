@@ -140,9 +140,8 @@ namespace AgriIPCA.Core
             this.writer.Write("Address: ");
             string address = this.reader.Read();
 
-            User user = new User(username, password, address);
+            User user = new User(username, password, Role.User, address);
             this.context.Users.Add(user);
-            this.context.UserRoles.Add(new UserRole(user.Id, Role.User));
             this.context.SaveChanges();
 
             return "Account successfully created. Now you can enter 2 to login.";

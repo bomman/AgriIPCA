@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
+using AgriIPCA.Models.Products;
 using AgriIPCA.Models.Users;
 
 namespace AgriIPCA.Database
@@ -12,18 +8,21 @@ namespace AgriIPCA.Database
     {
         protected override void Seed(AgriIPCAContext context)
         {
-            User defaultUser = new User("user", "user");
-            User defaultAdmin = new User("admin", "admin");
+            User defaultUser = new User("user", "user", Role.User);
+            User defaultAdmin = new User("admin", "admin", Role.Admin);
 
             context.Users.Add(defaultUser);
             context.Users.Add(defaultAdmin);
             context.SaveChanges();
 
-            UserRole userRole = new UserRole(defaultUser.Id, Role.User);
-            UserRole adminRole = new UserRole(defaultAdmin.Id, Role.Admin);
+            Animal horse = new Animal("Long horse", 2000, "horse");
+            //context.Animals.Add(horse);
+            context.Products.Add(horse);
+            context.SaveChanges();
 
-            context.UserRoles.Add(userRole);
-            context.UserRoles.Add(adminRole);
+            Cereals wheat = new Cereals("Best weed", 0.22m);
+            context.Products.Add(wheat);
+            //context.Cereals.Add(wheat);
             context.SaveChanges();
         }
     }
