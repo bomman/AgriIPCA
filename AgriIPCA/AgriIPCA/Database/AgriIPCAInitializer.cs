@@ -15,12 +15,12 @@ namespace AgriIPCA.Database
             context.Users.Add(defaultAdmin);
             context.SaveChanges();
 
-            Animal horse = new Animal("Long horse", 2000, "horse");
+            Animal horse = new Animal("Long horse", 2000, 2, "horse");
             //context.Animals.Add(horse);
             context.Products.Add(horse);
             context.SaveChanges();
 
-            Cereals wheat = new Cereals("Best weed", 0.22m);
+            Cereals wheat = new Cereals("Best weed", 0.22m, 1000);
             context.Products.Add(wheat);
             //context.Cereals.Add(wheat);
             context.SaveChanges();

@@ -5,12 +5,17 @@ namespace AgriIPCA.Models.Products
     [Table("Animals")]
     public class Animal : Product
     {
-        public Animal(string name, decimal price) : base(name, price)
+        public Animal() : base()
         {
             
         }
 
-        public Animal(string name, decimal price, string breed) : base(name, price)
+        public Animal(string name, decimal price, int quantity) : base(name, price, quantity)
+        {
+            
+        }
+
+        public Animal(string name, decimal price, int quantity, string breed) : base(name, price, quantity)
         {
             this.Breed = breed;
         }

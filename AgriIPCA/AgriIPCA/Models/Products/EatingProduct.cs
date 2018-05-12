@@ -7,11 +7,16 @@ namespace AgriIPCA.Models.Products
     [Table("EatingProducts")]
     public abstract class EatingProduct : Product, IPerishable 
     {
-        protected EatingProduct(string name, decimal price) : base(name, price)
+        protected EatingProduct()
+        {
+            
+        }
+
+        protected EatingProduct(string name, decimal price, int quantity) : base(name, price, quantity)
         {
         }
 
-        protected EatingProduct(string name, decimal price, DateTime bestBefore) : base(name, price)
+        protected EatingProduct(string name, decimal price, int quantity, DateTime bestBefore) : base(name, price, quantity)
         {
             this.BestBefore = bestBefore;
         }

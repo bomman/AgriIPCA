@@ -4,7 +4,12 @@ namespace AgriIPCA.Models.Products
 {
     public abstract class AnimalProvided : EatingProduct
     {
-        protected AnimalProvided(string name, decimal price, DateTime bestBefore) : base(name, price, bestBefore)
+        protected AnimalProvided()
+        {
+            
+        }
+
+        protected AnimalProvided(string name, decimal price, int quantity, DateTime bestBefore) : base(name, price, quantity, bestBefore)
         {
         }
     }

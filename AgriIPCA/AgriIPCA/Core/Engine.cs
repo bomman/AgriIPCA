@@ -74,8 +74,8 @@ namespace AgriIPCA.Core
             StringBuilder output = new StringBuilder();
 
             output.AppendLine(" -----  Menu  ----- ");
-            output.AppendLine("1. List Stocks");
-            output.AppendLine("2. Order Stocks");
+            output.AppendLine("1. List Products");
+            output.AppendLine("2. Order Products");
             output.AppendLine("3. Profile Details");
             output.AppendLine("4. Admin");
             output.AppendLine("5. Log out");

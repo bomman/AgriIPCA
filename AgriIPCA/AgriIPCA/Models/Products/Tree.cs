@@ -5,7 +5,12 @@ namespace AgriIPCA.Models.Products
     [Table("Tree")]
     public class Tree : Plant
     {
-        public Tree(string name, decimal price) : base(name, price)
+        public Tree()
+        {
+            
+        }
+
+        public Tree(string name, decimal price, int quantity) : base(name, price, quantity)
         {
         }
     }

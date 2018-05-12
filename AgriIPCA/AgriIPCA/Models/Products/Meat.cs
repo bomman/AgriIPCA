@@ -6,7 +6,12 @@ namespace AgriIPCA.Models.Products
     [Table("Meat")]
     public class Meat : AnimalProvided
     {
-        public Meat(string name, decimal price, DateTime bestBefore) : base(name, price, bestBefore)
+        public Meat()
+        {
+            
+        }
+
+        public Meat(string name, decimal price, int quantity, DateTime bestBefore) : base(name, price, quantity, bestBefore)
         {
         }
     }

@@ -61,7 +61,7 @@ namespace AgriIPCA.Models.Users
 
         public override string ToString()
         {
-            return $"{this.Id};{this.Username};{this.Password};{this.Address}";
+            return $"-- {this.Id};{this.Username};{this.Address}";
         }
     }
 }

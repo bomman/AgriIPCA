@@ -6,7 +6,12 @@ namespace AgriIPCA.Models.Products
     [Table("Vegetables")]
     public class Vegatable : EatingProduct
     {
-        public Vegatable(string name, decimal price, DateTime bestBefore) : base(name, price, bestBefore)
+        public Vegatable()
+        {
+            
+        }
+
+        public Vegatable(string name, decimal price, int quantity, DateTime bestBefore) : base(name, price, quantity, bestBefore)
         {
         }
     }
