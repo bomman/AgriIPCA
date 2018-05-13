@@ -14,7 +14,10 @@ namespace AgriIPCA.Models.Products
         {
         }
 
-        public string Species { get; set; }
+
+        public Flower(string name, decimal price, int quantity, string species) : base(name, price, quantity, species)
+        {
+        }
 
         public string Color { get; set; }
     }

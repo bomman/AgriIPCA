@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Text;
 
 namespace AgriIPCA.Models.Users
@@ -9,24 +11,24 @@ namespace AgriIPCA.Models.Users
     {
         public User()
         {
-            
+            this.Basket = new List<BasketItem>();
         }
 
-        public User(string username, string password)
+        public User(string username, string password) : this()
         {
             this.Username = username;
             this.Password = password;
             this.Role = Role.User;
         }
 
-        public User(string username, string password, Role role)
+        public User(string username, string password, Role role) : this()
         {
             this.Username = username;
             this.Password = password;
             this.Role = role;
         }
 
-        public User(string username, string password, Role role, string address)
+        public User(string username, string password, Role role, string address) : this()
         {
             this.Username = username;
             this.Password = password;
@@ -49,12 +51,29 @@ namespace AgriIPCA.Models.Users
         [Required]
         public Role Role { get; set; }
 
+        public IList<BasketItem> Basket { get; set; }
+
+        public string PrintBasket()
+        {
+            StringBuilder output = new StringBuilder();
+
+            for (int i = 0; i < this.Basket.Count; i++)
+            {
+                output.AppendLine($"{i + 1}. {this.Basket[i].ToString()}");
+            }
+
+            decimal sum = this.Basket.Sum(p => p.Price * p.Quantity);
+            output.AppendLine($"Total: {sum}");
+
+            return output.ToString();
+        }
+
         public string PrintDetails()
         {
             StringBuilder output = new StringBuilder();
 
             output.AppendLine($"Username: {this.Username}");
-            output.Append($"Address: {this.Address}");
+            output.Append(this.Address == null ? "Address: (no address)" : $"Address: {this.Address}");
 
             return output.ToString();
         }

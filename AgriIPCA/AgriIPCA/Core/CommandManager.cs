@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using AgriIPCA.Database;
@@ -10,9 +11,9 @@ namespace AgriIPCA.Core
 {
     public class CommandManager : ICommandManager
     {
-        private IWriter writer;
-        private IReader reader;
-        private AgriIPCAContext context;
+        private readonly IWriter writer;
+        private readonly IReader reader;
+        private readonly AgriIPCAContext context;
         private User loggedInUser;
 
         public CommandManager(IWriter writer, IReader reader, AgriIPCAContext context)
@@ -70,8 +71,8 @@ namespace AgriIPCA.Core
             {
                 this.writer.Write(this.PrintAdminMenu());
 
-                commandArgs = this.reader.Read().Split(' ');
-                switch (commandArgs[0].ToLower())
+                commandArgs = this.reader.Read().ToLower().Split(' ');
+                switch (commandArgs[0])
                 {
                     // menu
                     case "1":
@@ -92,17 +93,13 @@ namespace AgriIPCA.Core
 
                     // hidden commands
                     case "create":
-                        if (commandArgs[1] == "product")
-                        {
-                            this.writer.Write(this.CreateProduct());
-                        }
-                        else if (commandArgs[1] == "user")
+                        if (commandArgs[1] == "user")
                         {
                             this.writer.Write(this.CreateUser());
                         }
                         else
                         {
-                            this.writer.Write("Incorrect command.");
+                            this.writer.Write(this.CreateProduct(commandArgs[1]));
                         }
                         break;
                     case "edit":
@@ -137,9 +134,170 @@ namespace AgriIPCA.Core
             }
         }
 
-        private string CreateProduct()
+        private string CreateProduct(string typeOfProduct)
         {
-            throw new NotImplementedException();
+            switch (typeOfProduct)
+            {
+                case "animal":
+                    return this.CreateAnimal();
+                case "cereals":
+                    return this.CreateCerials();
+                case "dairy":
+                    return this.CreateDairyProduct();
+                case "flower":
+                    return this.CreateFlower();
+                case "fruit":
+                    return this.CreateFuit();
+                case "meat":
+                    return this.CreateMeat();
+                case "tree":
+                    return this.CreateTree();
+                case "vegetable":
+                    return this.CreateVegetable();
+                default:
+                    return "Not valid command.";
+            }
+        }
+
+        private string CreateFuit()
+        {
+            this.writer.Write("Name: ");
+            string name = this.reader.Read();
+            this.writer.Write("Price: ");
+            decimal price = decimal.Parse(this.reader.Read());
+            this.writer.Write("Quantity: ");
+            int quantity = int.Parse(this.reader.Read());
+            this.writer.Write("Best Before(inserted date should be in format 'dd/mm/yyyy'): ");
+            DateTime bestBefore = DateTime.ParseExact(this.reader.Read(), "dd/mm/yyyy", CultureInfo.InvariantCulture);
+
+            Fruit fruit = new Fruit(name, price, quantity, bestBefore);
+            this.context.Products.Add(fruit);
+            this.context.SaveChanges();
+
+            return "The fruit has been successfully added to the database";
+        }
+
+        private string CreateTree()
+        {
+            this.writer.Write("Name: ");
+            string name = this.reader.Read();
+            this.writer.Write("Price: ");
+            decimal price = decimal.Parse(this.reader.Read());
+            this.writer.Write("Quantity: ");
+            int quantity = int.Parse(this.reader.Read());
+            this.writer.Write("Species: ");
+            string species = this.reader.Read();
+
+            Tree tree = new Tree(name, price, quantity, species);
+            this.context.Products.Add(tree);
+            this.context.SaveChanges();
+
+            return "The tree has been successfully added to the database";
+        }
+
+        private string CreateVegetable()
+        {
+            this.writer.Write("Name: ");
+            string name = this.reader.Read();
+            this.writer.Write("Price: ");
+            decimal price = decimal.Parse(this.reader.Read());
+            this.writer.Write("Quantity: ");
+            int quantity = int.Parse(this.reader.Read());
+            this.writer.Write("Best Before(inserted date should be in format 'dd/mm/yyyy'): ");
+            DateTime bestBefore = DateTime.ParseExact(this.reader.Read(), "dd/mm/yyyy", CultureInfo.InvariantCulture);
+
+            Vegatable vegatable = new Vegatable(name, price, quantity, bestBefore);
+            this.context.Products.Add(vegatable);
+            this.context.SaveChanges();
+
+            return "The vegetable has been successfully added to the database";
+        }
+
+        private string CreateMeat()
+        {
+            this.writer.Write("Name: ");
+            string name = this.reader.Read();
+            this.writer.Write("Price: ");
+            decimal price = decimal.Parse(this.reader.Read());
+            this.writer.Write("Quantity: ");
+            int quantity = int.Parse(this.reader.Read());
+            this.writer.Write("Best Before(inserted date should be in format 'dd/mm/yyyy'): ");
+            DateTime bestBefore = DateTime.ParseExact(this.reader.Read(), "dd/mm/yyyy", CultureInfo.InvariantCulture);
+
+            Meat meat = new Meat(name, price, quantity, bestBefore);
+            this.context.Products.Add(meat);
+            this.context.SaveChanges();
+
+            return "The meat has been successfully added to the database";
+        }
+
+        private string CreateFlower()
+        {
+            this.writer.Write("Name: ");
+            string name = this.reader.Read();
+            this.writer.Write("Price: ");
+            decimal price = decimal.Parse(this.reader.Read());
+            this.writer.Write("Quantity: ");
+            int quantity = int.Parse(this.reader.Read());
+            this.writer.Write("Species: ");
+            string species = this.reader.Read();
+
+            Flower flower = new Flower(name, price, quantity, species);
+            this.context.Products.Add(flower);
+            this.context.SaveChanges();
+
+            return "The flower has been successfully added to the database";
+        }
+
+        private string CreateDairyProduct()
+        {
+            this.writer.Write("Name: ");
+            string name = this.reader.Read();
+            this.writer.Write("Price: ");
+            decimal price = decimal.Parse(this.reader.Read());
+            this.writer.Write("Quantity: ");
+            int quantity = int.Parse(this.reader.Read());
+            this.writer.Write("Best Before(inserted date should be in format 'dd/mm/yyyy'): ");
+            DateTime bestBefore = DateTime.ParseExact(this.reader.Read(), "dd/mm/yyyy", CultureInfo.InvariantCulture);
+
+            DairyProduct dairy = new DairyProduct(name, price, quantity, bestBefore);
+            this.context.Products.Add(dairy);
+            this.context.SaveChanges();
+
+            return "The dairy product has been successfully added to the database";
+        }
+
+        private string CreateCerials()
+        {
+            this.writer.Write("Name: ");
+            string name = this.reader.Read();
+            this.writer.Write("Price: ");
+            decimal price = decimal.Parse(this.reader.Read());
+            this.writer.Write("Quantity: ");
+            int quantity = int.Parse(this.reader.Read());
+
+            Cereals cereals = new Cereals(name, price, quantity);
+            this.context.Products.Add(cereals);
+
+            return "The cereals have been successfully added to the database";
+        }
+
+        private string CreateAnimal()
+        {
+            this.writer.Write("Name: ");
+            string name = this.reader.Read();
+            this.writer.Write("Price: ");
+            decimal price = decimal.Parse(this.reader.Read());
+            this.writer.Write("Quantity: ");
+            int quantity = int.Parse(this.reader.Read());
+            this.writer.Write("Breed: ");
+            string breed = this.reader.Read();
+
+            Animal animal = new Animal(name, price, quantity, breed);
+            this.context.Products.Add(animal);
+            this.context.SaveChanges();
+
+            return "The animal has been successfully added to the database";
         }
 
         private string CreateUser()
@@ -281,12 +439,13 @@ namespace AgriIPCA.Core
             output.AppendLine("Enter: ");
             output.AppendLine("-- 'list products' or '1' to see a list of all products");
             output.AppendLine("-- 'list users' or '2' to see a list of all users");
-            output.AppendLine("-- 'create product' to create a product");
+            output.AppendLine("-- 'create [type of  product]' to create a product");
             output.AppendLine("-- 'edit product [product id]' to edit a product");
             output.AppendLine("-- 'delete product [product id]' to delete a product");
             output.AppendLine("-- 'create user' to create a new user");
             output.AppendLine("-- 'edit user [username]' to edit a user");
             output.AppendLine("-- 'delete user [username]' to delete a user");
+            output.Append(new string('-', 30));
 
             return output.ToString();
         }
@@ -351,7 +510,62 @@ namespace AgriIPCA.Core
 
         private string OrderProducts()
         {
-            throw new NotImplementedException();
+            this.writer.Write(this.ListProducts());
+            this.writer.Write("What would you like to order? Enter the code of the product: ");
+            int id = int.Parse(this.reader.Read());
+
+            Product product = this.context.Products.FirstOrDefault(p => p.Id == id);
+            if (product == null)
+            {
+                throw new Exception("Not found product.");
+            }
+
+            this.writer.Write("What quantity do you want?");
+            int quantity = int.Parse(this.reader.Read());
+
+            if (quantity > product.Quantity)
+            {
+                throw new Exception($"Sorry! We dont have enough from this product. You can order maximum {product.Quantity}.");
+            }
+
+            BasketItem newItem = new BasketItem(product.Id, product.Name, quantity, product.Price);
+            this.loggedInUser.Basket.Add(newItem);
+            this.writer.Write(this.loggedInUser.PrintBasket());
+
+            this.writer.Write("Would you like to order another product? Y/N");
+            string agreement = this.reader.Read().ToLower();
+
+            if (agreement == "y")
+            {
+                this.OrderProducts();
+            }
+            else
+            {
+                this.writer.Write("Order details: ");
+                this.writer.Write(this.loggedInUser.PrintBasket());
+                this.writer.Write("Do you confirm your order? Y/N");
+                string confirmation = this.reader.Read().ToLower();
+
+                if (confirmation == "n")
+                {
+                    this.OrderProducts();
+                }
+                else
+                {
+                    foreach (BasketItem basketProduct in this.loggedInUser.Basket)
+                    {
+                        Product databaseProduct = this.context.Products.FirstOrDefault(p => p.Id == basketProduct.ProductId);
+                        databaseProduct.Quantity -= basketProduct.Quantity;
+                    }
+
+                    this.context.SaveChanges();
+                    this.loggedInUser.Basket.Clear();
+
+                    return "You have successfully ordered your products.";
+                }
+            }
+
+            return ":P";
         }
 
         private string ListProducts()
@@ -359,7 +573,7 @@ namespace AgriIPCA.Core
             var products = this.context.Products;
             StringBuilder output = new StringBuilder();
             output.AppendLine("Currently available products: ");
-            output.AppendLine("Name\tQuantity\tPrice");
+            output.AppendLine("Id\tName\tQuantity\tPrice");
             foreach (Product product in products)
             {
                 output.AppendLine(product.ToString());
