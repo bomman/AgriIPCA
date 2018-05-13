@@ -23,6 +23,7 @@ namespace AgriIPCA.Core
             this.context = new AgriIPCAContext();
         }
 
+        #region  Logged In
         public void LogInExecute(int command, out bool isLoggedIn)
         {
             switch (command)
@@ -33,7 +34,7 @@ namespace AgriIPCA.Core
                     break;
                 case 2:
                     isLoggedIn = true;
-                    this.writer.Write(this.OrderProducts());
+                    this.writer.Write(this.BuyProducts());
                     break;
                 case 3:
                     isLoggedIn = true;
@@ -508,7 +509,7 @@ namespace AgriIPCA.Core
             return "Your profile has been successfully edited.";
         }
 
-        private string OrderProducts()
+        private string BuyProducts()
         {
             this.writer.Write(this.ListProducts());
             this.writer.Write("What would you like to order? Enter the code of the product: ");
@@ -537,7 +538,7 @@ namespace AgriIPCA.Core
 
             if (agreement == "y")
             {
-                this.OrderProducts();
+                this.BuyProducts();
             }
             else
             {
@@ -548,7 +549,7 @@ namespace AgriIPCA.Core
 
                 if (confirmation == "n")
                 {
-                    this.OrderProducts();
+                    this.BuyProducts();
                 }
                 else
                 {
@@ -565,7 +566,7 @@ namespace AgriIPCA.Core
                 }
             }
 
-            return ":P";
+            return "";
         }
 
         private string ListProducts()
@@ -581,6 +582,8 @@ namespace AgriIPCA.Core
 
             return output.ToString();
         }
+
+        #endregion
 
         #region Not Logged In
 
@@ -622,6 +625,8 @@ namespace AgriIPCA.Core
 
             this.writer.Write("Address: ");
             string address = this.reader.Read();
+
+            //TODO: add check for the username
 
             User user = new User(username, password, Role.User, address);
             this.context.Users.Add(user);

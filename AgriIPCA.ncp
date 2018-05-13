@@ -1,16 +1,17 @@
 <Project>
   <Name>AgriIPCA</Name>
   <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
-    <Name>diagram</Name>
+    <Name>products</Name>
     <Language>CSharp</Language>
     <Entities>
       <Entity type="Class">
         <Name>Product</Name>
         <Access>Public</Access>
-        <Location left="1154" top="32" />
+        <Location left="1151" top="49" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
-        <Member type="Constructor">protected Product(string name)</Member>
+        <Member type="Constructor">protected Product()</Member>
+        <Member type="Constructor">protected Product(string name, decimal price, int quantity)</Member>
         <Member type="Property">public int Id { get; set; }</Member>
         <Member type="Property">public int Name { get; set; }</Member>
         <Member type="Property">public int Description { get; set; }</Member>
@@ -20,45 +21,53 @@
       <Entity type="Class">
         <Name>EatingProduct</Name>
         <Access>Public</Access>
-        <Location left="793" top="363" />
+        <Location left="846" top="315" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
-        <Member type="Constructor">protected EatingProduct(string name, DateTime perishDate)</Member>
+        <Member type="Constructor">protected EatingProduct()</Member>
+        <Member type="Constructor">protected EatingProduct(string name, decimal price, int quantity)</Member>
+        <Member type="Constructor">protected EatingProduct(string name, decimal price, int quantity, DateTime bestBefore)</Member>
         <Member type="Property">public int BestBefore { get; set; }</Member>
         <Modifier>Abstract</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>Animal</Name>
         <Access>Public</Access>
-        <Location left="1031" top="363" />
+        <Location left="1038" top="315" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
-        <Member type="Constructor">public Animal(string name)</Member>
+        <Member type="Constructor">public Animal()</Member>
+        <Member type="Constructor">public Animal(string name, decimal price, int quantity)</Member>
+        <Member type="Constructor">public Animal(string name, decimal price, int quantity, string breed)</Member>
         <Member type="Property">public string Breed { get; set; }</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>Cerials</Name>
         <Access>Public</Access>
-        <Location left="1263" top="363" />
+        <Location left="1270" top="315" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
-        <Member type="Constructor">public Cerials(string name)</Member>
+        <Member type="Constructor">public Cerials()</Member>
+        <Member type="Constructor">public Cerials(string name, decimal price, int quantity)</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>Plant</Name>
         <Access>Public</Access>
-        <Location left="1734" top="363" />
+        <Location left="1557" top="315" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
-        <Member type="Constructor">protected Plant(string name)</Member>
+        <Member type="Constructor">protected Plant()</Member>
+        <Member type="Constructor">protected Plant(string name, decimal price, int quantity)</Member>
+        <Member type="Constructor">protected Plant(string name, decimal price, int quantity, string species)</Member>
+        <Member type="Property">public string Species { get; set; }</Member>
         <Modifier>Abstract</Modifier>
       </Entity>
       <Entity type="Interface">
         <Name>IPerishable</Name>
         <Access>Public</Access>
-        <Location left="278" top="363" />
+        <Location left="632" top="326" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Property">DateTime BestBefore { get; set; }</Member>
@@ -66,10 +75,12 @@
       <Entity type="Class">
         <Name>Flower</Name>
         <Access>Public</Access>
-        <Location left="1575" top="690" />
+        <Location left="1390" top="611" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
-        <Member type="Constructor">public Flower(string name)</Member>
+        <Member type="Constructor">public Flower()</Member>
+        <Member type="Constructor">public Flower(string name, decimal price, int quantity)</Member>
+        <Member type="Constructor">public Flower(string name, decimal price, int quantity, string species)</Member>
         <Member type="Property">public string Species { get; set; }</Member>
         <Member type="Property">public string Color { get; set; }</Member>
         <Modifier>None</Modifier>
@@ -77,55 +88,62 @@
       <Entity type="Class">
         <Name>Tree</Name>
         <Access>Public</Access>
-        <Location left="1867" top="690" />
+        <Location left="1681" top="611" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
-        <Member type="Constructor">public Tree(string name)</Member>
+        <Member type="Constructor">public Tree()</Member>
+        <Member type="Constructor">public Tree(string name, decimal price, int quantity)</Member>
+        <Member type="Constructor">public Tree(string name, decimal price, int quantity, string species)</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>Fruit</Name>
         <Access>Public</Access>
-        <Location left="592" top="690" />
+        <Location left="700" top="611" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
-        <Member type="Constructor">public Fruit(string name, DateTime bestBefore)</Member>
+        <Member type="Constructor">public Fruit()</Member>
+        <Member type="Constructor">public Fruit(string name, decimal price, int quantity, DateTime bestBefore)</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>Vegetable</Name>
         <Access>Public</Access>
-        <Location left="888" top="690" />
+        <Location left="933" top="611" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
-        <Member type="Constructor">public Vegetable(string name, DateTime bestBefore)</Member>
+        <Member type="Constructor">public Vegetable()</Member>
+        <Member type="Constructor">public Vegetable(string name, decimal price, int quantity, DateTime bestBefore)</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>AnimalProvided</Name>
         <Access>Public</Access>
-        <Location left="1190" top="690" />
+        <Location left="1189" top="611" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
-        <Member type="Constructor">protected AnimalProvided(string name, DateTime bestBefore)</Member>
+        <Member type="Constructor">protected AnimalProvided()</Member>
+        <Member type="Constructor">protected AnimalProvided(string name, decimal price, int quantity, DateTime bestBefore)</Member>
         <Modifier>Abstract</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>Meat</Name>
         <Access>Public</Access>
-        <Location left="1038" top="1089" />
+        <Location left="1050" top="933" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
-        <Member type="Constructor">public Meat(string name, DateTime bestBefore)</Member>
+        <Member type="Constructor">public Meat()</Member>
+        <Member type="Constructor">public Meat(string name, decimal price, int quantity, DateTime bestBefore)</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>DairyProducts</Name>
         <Access>Public</Access>
-        <Location left="1340" top="1089" />
+        <Location left="1352" top="933" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
-        <Member type="Constructor">public DairyProducts(string name, DateTime bestBefore)</Member>
+        <Member type="Constructor">public DairyProducts()</Member>
+        <Member type="Constructor">public DairyProducts(string name, decimal price, int quantity, DateTime bestBefore)</Member>
         <Modifier>None</Modifier>
       </Entity>
     </Entities>
@@ -177,6 +195,70 @@
       <Relationship type="Generalization" first="4" second="0">
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>users</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>User</Name>
+        <Access>Public</Access>
+        <Location left="352" top="74" />
+        <Size width="162" height="298" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public User()</Member>
+        <Member type="Constructor">public User(string username, string password)</Member>
+        <Member type="Constructor">public User(string username, string password, Role role)</Member>
+        <Member type="Constructor">public User(string username, string password, Role role, string address)</Member>
+        <Member type="Property">public int Id { get; set; }</Member>
+        <Member type="Property">public string Username { get; set; }</Member>
+        <Member type="Property">public string Password { get; set; }</Member>
+        <Member type="Property">public string Address { get; set; }</Member>
+        <Member type="Property">public Role Role { get; set; }</Member>
+        <Member type="Property">public IList&lt;BasketItem&gt; Basket { get; set; }</Member>
+        <Member type="Method">public string PrintBasket()</Member>
+        <Member type="Method">public string PrintDetails()</Member>
+        <Member type="Method">public override string ToString()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Enum">
+        <Name>Role</Name>
+        <Access>Public</Access>
+        <Location left="95" top="120" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Value>User</Value>
+        <Value>Admin</Value>
+      </Entity>
+      <Entity type="Class">
+        <Name>BasketItem</Name>
+        <Access>Public</Access>
+        <Location left="581" top="120" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public BasketItem(int productId, string productName, int quantity, decimal price)</Member>
+        <Member type="Method">public override string ToString()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="2" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="1" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
       </Relationship>
     </Relationships>
   </ProjectItem>

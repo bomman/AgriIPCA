@@ -1,0 +1,11 @@
+C:\Users\bggad\Documents\Visual Studio 2017\Projects\IPCA\AgriIPCA\AgriIPCA\bin\Debug\AgriIPCA.exe.config
+C:\Users\bggad\Documents\Visual Studio 2017\Projects\IPCA\AgriIPCA\AgriIPCA\bin\Debug\AgriIPCA.exe
+C:\Users\bggad\Documents\Visual Studio 2017\Projects\IPCA\AgriIPCA\AgriIPCA\bin\Debug\AgriIPCA.pdb
+C:\Users\bggad\Documents\Visual Studio 2017\Projects\IPCA\AgriIPCA\AgriIPCA\bin\Debug\EntityFramework.dll
+C:\Users\bggad\Documents\Visual Studio 2017\Projects\IPCA\AgriIPCA\AgriIPCA\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\bggad\Documents\Visual Studio 2017\Projects\IPCA\AgriIPCA\AgriIPCA\bin\Debug\EntityFramework.xml
+C:\Users\bggad\Documents\Visual Studio 2017\Projects\IPCA\AgriIPCA\AgriIPCA\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\bggad\Documents\Visual Studio 2017\Projects\IPCA\AgriIPCA\AgriIPCA\obj\Debug\AgriIPCA.csprojResolveAssemblyReference.cache
+C:\Users\bggad\Documents\Visual Studio 2017\Projects\IPCA\AgriIPCA\AgriIPCA\obj\Debug\AgriIPCA.csproj.CoreCompileInputs.cache
+C:\Users\bggad\Documents\Visual Studio 2017\Projects\IPCA\AgriIPCA\AgriIPCA\obj\Debug\AgriIPCA.exe
+C:\Users\bggad\Documents\Visual Studio 2017\Projects\IPCA\AgriIPCA\AgriIPCA\obj\Debug\AgriIPCA.pdb

@@ -75,7 +75,7 @@ namespace AgriIPCA.Core
 
             output.AppendLine(" -----  Menu  ----- ");
             output.AppendLine("1. List Products");
-            output.AppendLine("2. Order Products");
+            output.AppendLine("2. Buy Products");
             output.AppendLine("3. Profile Details");
             output.AppendLine("4. Admin");
             output.AppendLine("5. Log out");
