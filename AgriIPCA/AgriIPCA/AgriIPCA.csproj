@@ -71,6 +71,7 @@
     <Compile Include="Models\Products\Product.cs" />
     <Compile Include="Models\Products\Tree.cs" />
     <Compile Include="Models\Products\Vegatable.cs" />
+    <Compile Include="Models\Users\Basket.cs" />
     <Compile Include="Models\Users\BasketItem.cs" />
     <Compile Include="Models\Users\Role.cs" />
     <Compile Include="Models\Users\User.cs" />

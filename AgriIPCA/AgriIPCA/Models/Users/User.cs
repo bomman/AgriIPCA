@@ -11,7 +11,7 @@ namespace AgriIPCA.Models.Users
     {
         public User()
         {
-            this.Basket = new List<BasketItem>();
+            this.Basket = new Basket();
         }
 
         public User(string username, string password) : this()
@@ -51,7 +51,8 @@ namespace AgriIPCA.Models.Users
         [Required]
         public Role Role { get; set; }
 
-        public IList<BasketItem> Basket { get; set; }
+        [NotMapped]
+        public Basket Basket { get; set; }
 
         public string PrintBasket()
         {
