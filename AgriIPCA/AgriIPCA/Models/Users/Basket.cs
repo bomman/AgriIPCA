@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace AgriIPCA.Models.Users
 {
@@ -45,16 +46,22 @@ namespace AgriIPCA.Models.Users
             {
                 throw new Exception("Basket item is null.");
             }
-            else
+
+            BasketItem item = this.basket
+                .FirstOrDefault(p => p.ProductId == newItem.ProductId);
+            if (item == null)
             {
                 this.basket.Add(newItem);
+            }
+            else
+            {
+                item.Quantity += newItem.Quantity;
             }
         }
 
         public void Clear()
         {
             this.basket.Clear();
-            ;
         }
     }
 }

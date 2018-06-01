@@ -515,7 +515,7 @@ namespace AgriIPCA.Core
             this.writer.Write("What would you like to order? Enter the code of the product: ");
             int id = int.Parse(this.reader.Read());
 
-            Product product = this.context.Products.FirstOrDefault(p => p.Id == id);
+            Product product = this.context.Products.FirstOrDefault(p => p.Id == id  && p.Quantity > 0);
             if (product == null)
             {
                 throw new Exception("Not found product.");
@@ -531,6 +531,7 @@ namespace AgriIPCA.Core
 
             BasketItem newItem = new BasketItem(product.Id, product.Name, quantity, product.Price);
             this.loggedInUser.Basket.Add(newItem);
+            product.Quantity -= quantity;
             this.writer.Write(this.loggedInUser.PrintBasket());
 
             this.writer.Write("Would you like to order another product? Y/N");
@@ -571,7 +572,7 @@ namespace AgriIPCA.Core
 
         private string ListProducts()
         {
-            var products = this.context.Products;
+            var products = this.context.Products.Where(p => p.Quantity > 0);
             StringBuilder output = new StringBuilder();
             output.AppendLine("Currently available products: ");
             output.AppendLine("Id\tName\tQuantity\tPrice");

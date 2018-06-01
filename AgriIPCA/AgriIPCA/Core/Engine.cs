@@ -1,7 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Timers;
 using AgriIPCA.Database;
 using AgriIPCA.Interfaces;
+using AgriIPCA.Models.Products;
+using Timer = System.Timers.Timer;
 
 namespace AgriIPCA.Core
 {
@@ -30,6 +37,9 @@ namespace AgriIPCA.Core
                 this.context.Database.Initialize(true);
             }
 
+            
+            this.SetDatabaseChecker();
+
             while (true)
             {
                 try
@@ -52,6 +62,33 @@ namespace AgriIPCA.Core
                     Console.WriteLine(e.Message);
                 }
             }
+        }
+
+        private void SetDatabaseChecker()
+        {
+            Timer timer = new Timer();
+            // every day
+            timer.Interval = 1000;
+            timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            timer.Enabled = true;
+            timer.Start();
+        }
+
+        private void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            List<EatingProduct> perishedProducts = this.context.Products
+                .Select(p => p as EatingProduct)
+                .Where(p => p != null)
+                .Where(p => p.IsWentOff == false)
+                .Where(p => DateTime.Compare(p.BestBefore, DateTime.Now) < 0)
+                .ToList();
+
+            foreach (EatingProduct product in perishedProducts)
+            {
+                product.GoOff();
+            }
+
+            this.context.SaveChangesAsync();
         }
 
         private string PrintNotLoggedInMenu()

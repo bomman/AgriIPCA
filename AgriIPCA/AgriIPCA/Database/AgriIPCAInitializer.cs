@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using AgriIPCA.Models.Products;
 using AgriIPCA.Models.Users;
 
@@ -17,10 +18,19 @@ namespace AgriIPCA.Database
 
             Animal horse = new Animal("Long horse", 2000, 2, "horse");
             context.Products.Add(horse);
-            context.SaveChanges();
 
-            Cereals wheat = new Cereals("Best weed", 0.22m, 1000);
+            Cereals wheat = new Cereals("Crunchy", 0.22m, 1000);
             context.Products.Add(wheat);
+
+            Meat meat = new Meat("Pork Meat", 5.89m, 100, new DateTime(2018, 5, 27));
+            context.Products.Add(meat);
+
+            DairyProduct milk = new DairyProduct("Mr. Milk", 0.7m, 1000, new DateTime(2018, 3, 28));
+            context.Products.Add(milk);
+
+            DairyProduct cheese = new DairyProduct("Alpy", 7, 30, new DateTime(2018, 7, 12));
+            context.Products.Add(cheese);
+
             context.SaveChanges();
         }
     }

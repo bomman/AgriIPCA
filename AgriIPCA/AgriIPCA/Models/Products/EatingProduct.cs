@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using AgriIPCA.Interfaces;
 
@@ -21,6 +22,15 @@ namespace AgriIPCA.Models.Products
             this.BestBefore = bestBefore;
         }
 
+        [Required]
+        [DataType(DataType.Date)]
         public DateTime BestBefore { get; set; }
+
+        public bool IsWentOff { get; set; }
+
+        public void GoOff()
+        {
+            this.IsWentOff = true;
+        }
     }
 }
