@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity;
 using AgriIPCA.Models.Products;
+using AgriIPCA.Models.Purchases;
 using AgriIPCA.Models.Users;
 
 namespace AgriIPCA.Database
@@ -13,7 +14,9 @@ namespace AgriIPCA.Database
 
         public virtual IDbSet<User> Users { get; set; }
 
-        public DbSet<Product> Products { get; set; }
+        public virtual IDbSet<Product> Products { get; set; }
+
+        public virtual IDbSet<Purchase> Purchases { get; set; }
 
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)
         //{

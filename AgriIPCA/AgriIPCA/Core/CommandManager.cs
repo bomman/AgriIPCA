@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using AgriIPCA.Database;
 using AgriIPCA.Interfaces;
 using AgriIPCA.Models.Products;
+using AgriIPCA.Models.Purchases;
 using AgriIPCA.Models.Users;
 
 namespace AgriIPCA.Core
@@ -24,39 +26,181 @@ namespace AgriIPCA.Core
         }
 
         #region  Logged In
-        public void LogInExecute(int command, out bool isLoggedIn)
+        public void LogInExecute(string[] command, ref bool isLoggedIn)
         {
-            switch (command)
+            switch (command[0])
             {
-                case 1:
-                    isLoggedIn = true;
+                case "1":
                     this.writer.Write(this.ListProducts());
                     break;
-                case 2:
-                    isLoggedIn = true;
+                case "2":
                     this.writer.Write(this.BuyProducts());
                     break;
-                case 3:
-                    isLoggedIn = true;
+                case "3":
                     this.writer.Write(this.loggedInUser.PrintDetails());
                     this.writer.Write(this.EditProfile());
                     break;
-                case 4:
-                    isLoggedIn = true;
+                case "4":
                     this.writer.Write(this.ExecuteAdminOperations());
                     break;
-                case 5:
-                    this.writer.Write("You have successfully logged out.");
-                    isLoggedIn = false;
+                case "5":
+                case "help":
+                    this.writer.Write(this.LogInHelp());
                     break;
-                case 6:
+                case "6":
+                    this.writer.Write("You have successfully logged out.");
+                    break;
+                case "7":
+                case "exit":
                     isLoggedIn = false;
                     Environment.Exit(1);
                     break;
+
+                // hidden commands
+                case "product":
+                    this.writer.Write(this.PrintProductDetails(int.Parse(command[1])));
+                    break;
+                case "sort":
+                    if (command[1] == "asc")
+                    {
+                        this.writer.Write(this.ListProductsAsc());
+                    } else if (command[1] == "desc")
+                    {
+                        this.writer.Write(this.ListProductDesc());
+                    }
+                    else
+                    {
+                        throw new Exception("Invalid command.");
+                    }
+                    break;
+                case "top10":
+                    this.writer.Write(this.PrintTopProducts(10));
+                    break;
+                case "empty basket":
+                    this.loggedInUser.Basket.Clear();
+                    this.writer.Write("Your basket is empty now.");
+                    break;
+                case "filter":
+                    this.writer.Write(this.FilterProducts(command[1]));
+                    break;
                 default:
-                    isLoggedIn = true;
                     throw new Exception("Invalid command.");
             }
+        }
+
+        private string FilterProducts(string typeOfProduct)
+        {
+            switch (typeOfProduct)
+            {
+                case "animals":
+                    var animals = this.context.Products.Where(p => p is Animal).ToList();
+                    return PrintProducts(animals);
+                case "cereals":
+                    var cereals = this.context.Products.Where(p => p is Cereals).ToList();
+                    return PrintProducts(cereals);
+                case "dairy":
+                    var dairy = this.context.Products.Where(p => p is DairyProduct).ToList();
+                    return PrintProducts(dairy);
+                case "flowers":
+                    var flowers = this.context.Products.Where(p => p is Flower).ToList();
+                    return PrintProducts(flowers);
+                case "fruits":
+                    var fruits = this.context.Products.Where(p => p is Fruit).ToList();
+                    return PrintProducts(fruits);
+                case "meat":
+                    var meat = this.context.Products.Where(p => p is Meat).ToList();
+                    return PrintProducts(meat);
+                case "plant":
+                    var plants = this.context.Products.Where(p => p is Plant).ToList();
+                    return PrintProducts(plants);
+                case "trees":
+                    var trees = this.context.Products.Where(p => p is Tree).ToList();
+                    return PrintProducts(trees);
+                case "vegetables":
+                    var vegetables = this.context.Products.Where(p => p is Vegatable).ToList();
+                    return PrintProducts(vegetables);
+                default:
+                    return "Invalid command.";
+            }
+        }
+
+        private string PrintProducts(IList<Product> products)
+        {
+            StringBuilder output = new StringBuilder();
+            output.AppendLine("Products: ");
+            
+            if (products.Count == 0)
+            {
+                output.AppendLine("(no products)");
+            }
+            else
+            {
+                output.AppendLine("Id\tName\tQuantity\tPrice");
+                foreach (Product product in products)
+                {
+                    output.AppendLine(product.ToString());
+                }
+            }
+            
+            return output.ToString();
+        }
+
+        private string PrintTopProducts(int top)
+        {
+            var purchases = this.context.Purchases
+                .GroupBy(p => p.Product.Name)
+                .Select(p => new
+                {
+                    ProductName = p.Key,
+                    Count = p.Count()
+                })
+               .OrderByDescending(p => p.Count)
+               .ThenBy(p => p.ProductName)
+               .Take(top)
+               .ToArray();
+
+            StringBuilder output = new StringBuilder();
+            output.AppendLine($"Top {top} products: ");
+            int i = 0;
+            foreach (var purchase in purchases)
+            {
+                output.AppendLine($"{++i}. {purchase.ProductName} - {purchase.Count} purchases");
+            }
+
+            return output.ToString();
+        }
+
+        private string ListProductDesc()
+        {
+            var products = this.context.Products
+                .Where(p => p.Quantity > 0)
+                .OrderByDescending(p => p.Price)
+                .ToList();
+
+            return PrintProducts(products);
+        }
+
+        private string ListProductsAsc()
+        {
+            var products = this.context.Products
+                .Where(p => p.Quantity > 0)
+                .OrderBy(p => p.Price)
+                .ToList();
+
+            return PrintProducts(products);
+        }
+
+        private string LogInHelp()
+        {
+            StringBuilder output = new StringBuilder();
+            output.AppendLine("Enter: ");
+            output.AppendLine("-- 'product [product id]' to see its details");
+            output.AppendLine(
+                "-- 'sort [asc or desc]' to show products in ascending or descening order, depending on the price");
+            output.AppendLine("-- 'top10' to show top buying products");
+            output.AppendLine("-- 'empty basket' to empty your basket");
+
+            return output.ToString();
         }
 
         private string ExecuteAdminOperations()
@@ -100,7 +244,7 @@ namespace AgriIPCA.Core
                         }
                         else
                         {
-                            this.writer.Write(this.CreateProduct(commandArgs[1]));
+                            this.writer.Write(this.CreateProduct(commandArgs[2]));
                         }
                         break;
                     case "edit":
@@ -131,8 +275,46 @@ namespace AgriIPCA.Core
                             this.writer.Write("Incorrect command.");
                         }
                         break;
+                    case "details":
+                        if (commandArgs[1] == "user")
+                        {
+                            this.writer.Write(this.PrintUserDetails(commandArgs[2]));
+                        }
+                        else if (commandArgs[1] == "product")
+                        {
+                            this.writer.Write(this.PrintProductDetails(int.Parse(commandArgs[2])));
+                        }
+                        else
+                        {
+                            this.writer.Write("Incorrect command.");
+                        }
+                        break;
+                    default:
+                        throw new Exception("Incorrect command.");
                 }
             }
+        }
+
+        private string PrintProductDetails(int productId)
+        {
+            var targetProduct = this.context.Products.FirstOrDefault(p => p.Id == productId);
+            if (targetProduct == null)
+            {
+                throw  new Exception("The product is not found.");
+            }
+
+            return targetProduct.Details();
+        }
+
+        private string PrintUserDetails(string username)
+        {
+            User targetUser = this.context.Users.FirstOrDefault(u => u.Username == username);
+            if (targetUser == null)
+            {
+                throw new Exception("The user is not found.");
+            }
+
+            return targetUser.PrintDetails();
         }
 
         private string CreateProduct(string typeOfProduct)
@@ -224,8 +406,13 @@ namespace AgriIPCA.Core
             int quantity = int.Parse(this.reader.Read());
             this.writer.Write("Best Before(inserted date should be in format 'dd/mm/yyyy'): ");
             DateTime bestBefore = DateTime.ParseExact(this.reader.Read(), "dd/mm/yyyy", CultureInfo.InvariantCulture);
+            this.writer.Write("Kind of meat: ");
+
+            MeatKind meatKind = MeatKind.Other;
+            Enum.TryParse(this.reader.Read(), true, out meatKind);
 
             Meat meat = new Meat(name, price, quantity, bestBefore);
+            meat.Kind = meatKind;
             this.context.Products.Add(meat);
             this.context.SaveChanges();
 
@@ -443,9 +630,13 @@ namespace AgriIPCA.Core
             output.AppendLine("-- 'create [type of  product]' to create a product");
             output.AppendLine("-- 'edit product [product id]' to edit a product");
             output.AppendLine("-- 'delete product [product id]' to delete a product");
+            output.AppendLine("-- 'details product[product id]' to see product details");
+
             output.AppendLine("-- 'create user' to create a new user");
             output.AppendLine("-- 'edit user [username]' to edit a user");
             output.AppendLine("-- 'delete user [username]' to delete a user");
+            output.AppendLine("-- 'details user [username]' to see user details");
+
             output.Append(new string('-', 30));
 
             return output.ToString();
@@ -556,8 +747,9 @@ namespace AgriIPCA.Core
                 {
                     foreach (BasketItem basketProduct in this.loggedInUser.Basket)
                     {
-                        Product databaseProduct = this.context.Products.FirstOrDefault(p => p.Id == basketProduct.ProductId);
-                        databaseProduct.Quantity -= basketProduct.Quantity;
+                        Purchase purchase = new Purchase(
+                            basketProduct.ProductId, this.loggedInUser.Id, DateTime.Now, basketProduct.Quantity, basketProduct.Price);
+                        this.context.Purchases.Add(purchase);
                     }
 
                     this.context.SaveChanges();
@@ -572,14 +764,23 @@ namespace AgriIPCA.Core
 
         private string ListProducts()
         {
-            var products = this.context.Products.Where(p => p.Quantity > 0);
+            var products = this.context.Products
+                .Where(p => p.Quantity > 0)
+                .ToList();
             StringBuilder output = new StringBuilder();
             output.AppendLine("Currently available products: ");
-            output.AppendLine("Id\tName\tQuantity\tPrice");
-            foreach (Product product in products)
+            if (products.Count == 0)
             {
-                output.AppendLine(product.ToString());
+                output.AppendLine("(no products)");
             }
+            else
+            {
+                output.AppendLine("Id\tName\tQuantity\tPrice");
+                foreach (Product product in products)
+                {
+                    output.AppendLine(product.ToString());
+                }
+            } 
 
             return output.ToString();
         }
@@ -588,24 +789,22 @@ namespace AgriIPCA.Core
 
         #region Not Logged In
 
-        public void PreLogInExecute(int command, out bool isLoggedIn)
+        public void PreLogInExecute(string[] command, ref bool isLoggedIn)
         {
-            switch (command)
+            switch (command[0])
             {
-                case 1:
+                case "1":
                     this.writer.Write(this.CreateAccount());
-                    isLoggedIn = false;
                     break;
-                case 2:
+                case "2":
                     this.writer.Write(this.Login());
                     isLoggedIn = true;
-                    break;
-                case 3:
-                    isLoggedIn = false;
+                    break; 
+                case "3":
+                case "exit":
                     Environment.Exit(1);
                     break;
                 default:
-                    isLoggedIn = false;
                     throw new Exception("Invalid command.");
             }
         }

@@ -47,14 +47,14 @@ namespace AgriIPCA.Core
                     if (!isLoggedIn)
                     {
                         this.writer.Write(PrintNotLoggedInMenu());
-                        int input = int.Parse(this.reader.Read());
-                        this.manager.PreLogInExecute(input, out isLoggedIn);
+                        string[] input = this.reader.Read().Split(' ');
+                        this.manager.PreLogInExecute(input, ref isLoggedIn);
                     }
                     else
                     {
                         this.writer.Write(PrintLoggedInMenu());
-                        int input = int.Parse(this.reader.Read());
-                        this.manager.LogInExecute(input, out isLoggedIn);
+                        string[] input = this.reader.Read().Split(' ');
+                        this.manager.LogInExecute(input, ref isLoggedIn);
                     }
                 }
                 catch (Exception e)
@@ -68,7 +68,7 @@ namespace AgriIPCA.Core
         {
             Timer timer = new Timer();
             // every day
-            timer.Interval = 1000;
+            timer.Interval = 1000 * 60 * 60 * 24;
             timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             timer.Enabled = true;
             timer.Start();
@@ -79,7 +79,7 @@ namespace AgriIPCA.Core
             List<EatingProduct> perishedProducts = this.context.Products
                 .Select(p => p as EatingProduct)
                 .Where(p => p != null)
-                .Where(p => p.IsWentOff == false)
+                .Where(p => p.IsGoneOff == false)
                 .Where(p => DateTime.Compare(p.BestBefore, DateTime.Now) < 0)
                 .ToList();
 
@@ -115,8 +115,9 @@ namespace AgriIPCA.Core
             output.AppendLine("2. Buy Products");
             output.AppendLine("3. Profile Details");
             output.AppendLine("4. Admin");
-            output.AppendLine("5. Log out");
-            output.AppendLine("6. Exit");
+            output.AppendLine("5. Help");
+            output.AppendLine("6. Log out");
+            output.AppendLine("7. Exit");
             output.AppendLine(" ------------------ ");
             output.Append("Enter the number of command you want to execute: ");
 

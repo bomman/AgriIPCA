@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text;
 
 namespace AgriIPCA.Models.Products
 {
@@ -21,5 +22,13 @@ namespace AgriIPCA.Models.Products
         }
 
         public string Breed { get; set; }
+
+        public override string Details()
+        {
+            StringBuilder output = new StringBuilder(base.Details());
+            output.AppendLine($"Breed: {this.Breed}");
+
+            return output.ToString();
+        }
     }
 }

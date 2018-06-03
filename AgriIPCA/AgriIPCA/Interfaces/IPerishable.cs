@@ -6,7 +6,7 @@ namespace AgriIPCA.Interfaces
     {
         DateTime BestBefore { get; }
 
-        bool IsWentOff { get; set; }
+        bool IsGoneOff { get; }
 
         void GoOff();
     }

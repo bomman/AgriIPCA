@@ -7,14 +7,17 @@
       <Entity type="Class">
         <Name>Product</Name>
         <Access>Public</Access>
-        <Location left="1151" top="49" />
-        <Size width="162" height="216" />
+        <Location left="1144" top="39" />
+        <Size width="162" height="230" />
         <Collapsed>False</Collapsed>
         <Member type="Constructor">protected Product()</Member>
         <Member type="Constructor">protected Product(string name, decimal price, int quantity)</Member>
         <Member type="Property">public int Id { get; set; }</Member>
         <Member type="Property">public int Name { get; set; }</Member>
         <Member type="Property">public int Description { get; set; }</Member>
+        <Member type="Property">public int Price { get; set; }</Member>
+        <Member type="Property">public int Quantity { get; set; }</Member>
+        <Member type="Method">public virtual string Details()</Member>
         <Member type="Method">public override string ToString()</Member>
         <Modifier>Abstract</Modifier>
       </Entity>
@@ -28,6 +31,9 @@
         <Member type="Constructor">protected EatingProduct(string name, decimal price, int quantity)</Member>
         <Member type="Constructor">protected EatingProduct(string name, decimal price, int quantity, DateTime bestBefore)</Member>
         <Member type="Property">public int BestBefore { get; set; }</Member>
+        <Member type="Property">public bool IsGoneOff { get; set; }</Member>
+        <Member type="Method">public void GoOff()</Member>
+        <Member type="Method">public void Details()</Member>
         <Modifier>Abstract</Modifier>
       </Entity>
       <Entity type="Class">
@@ -40,6 +46,7 @@
         <Member type="Constructor">public Animal(string name, decimal price, int quantity)</Member>
         <Member type="Constructor">public Animal(string name, decimal price, int quantity, string breed)</Member>
         <Member type="Property">public string Breed { get; set; }</Member>
+        <Member type="Method">public void Details()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
@@ -62,15 +69,18 @@
         <Member type="Constructor">protected Plant(string name, decimal price, int quantity)</Member>
         <Member type="Constructor">protected Plant(string name, decimal price, int quantity, string species)</Member>
         <Member type="Property">public string Species { get; set; }</Member>
+        <Member type="Method">public void Details()</Member>
         <Modifier>Abstract</Modifier>
       </Entity>
       <Entity type="Interface">
         <Name>IPerishable</Name>
         <Access>Public</Access>
-        <Location left="632" top="326" />
+        <Location left="631" top="315" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Property">DateTime BestBefore { get; set; }</Member>
+        <Member type="Property">int IsGoneOff { get; set; }</Member>
+        <Member type="Method">void GoOff()</Member>
       </Entity>
       <Entity type="Class">
         <Name>Flower</Name>
@@ -83,6 +93,7 @@
         <Member type="Constructor">public Flower(string name, decimal price, int quantity, string species)</Member>
         <Member type="Property">public string Species { get; set; }</Member>
         <Member type="Property">public string Color { get; set; }</Member>
+        <Member type="Method">public void Details()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
@@ -129,11 +140,12 @@
       <Entity type="Class">
         <Name>Meat</Name>
         <Access>Public</Access>
-        <Location left="1050" top="933" />
+        <Location left="1049" top="933" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Constructor">public Meat()</Member>
         <Member type="Constructor">public Meat(string name, decimal price, int quantity, DateTime bestBefore)</Member>
+        <Member type="Property">public MeatKind Kind { get; set; }</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
@@ -145,6 +157,20 @@
         <Member type="Constructor">public DairyProducts()</Member>
         <Member type="Constructor">public DairyProducts(string name, decimal price, int quantity, DateTime bestBefore)</Member>
         <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Enum">
+        <Name>MeatKind</Name>
+        <Access>Public</Access>
+        <Location left="816" top="933" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Value>Other</Value>
+        <Value>Pork</Value>
+        <Value>Beef</Value>
+        <Value>Goat</Value>
+        <Value>Lamb</Value>
+        <Value>Chicken</Value>
+        <Value>Seafood</Value>
       </Entity>
     </Entities>
     <Relationships>
@@ -196,6 +222,14 @@
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
+      <Relationship type="Association" first="13" second="11">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
     </Relationships>
   </ProjectItem>
   <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
@@ -217,7 +251,7 @@
         <Member type="Property">public string Password { get; set; }</Member>
         <Member type="Property">public string Address { get; set; }</Member>
         <Member type="Property">public Role Role { get; set; }</Member>
-        <Member type="Property">public IList&lt;BasketItem&gt; Basket { get; set; }</Member>
+        <Member type="Property">public Basket Basket { get; set; }</Member>
         <Member type="Method">public string PrintBasket()</Member>
         <Member type="Method">public string PrintDetails()</Member>
         <Member type="Method">public override string ToString()</Member>
@@ -235,16 +269,42 @@
       <Entity type="Class">
         <Name>BasketItem</Name>
         <Access>Public</Access>
-        <Location left="581" top="120" />
+        <Location left="879" top="95" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Constructor">public BasketItem(int productId, string productName, int quantity, decimal price)</Member>
+        <Member type="Property">public int ProductId { get; set; }</Member>
+        <Member type="Property">public string ProductName { get; set; }</Member>
+        <Member type="Property">public int Quantity { get; set; }</Member>
+        <Member type="Property">public int Price { get; set; }</Member>
         <Member type="Method">public override string ToString()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Basket</Name>
+        <Access>Public</Access>
+        <Location left="630" top="95" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">IList&lt;BasketItem&gt; basket</Member>
+        <Member type="Constructor">public Basket()</Member>
+        <Member type="Property">public BasketItem this[int index] { get; set; }</Member>
+        <Member type="Property">public int Count { get; }</Member>
+        <Member type="Method">public IEnumerator&lt;BasketItem&gt; GetEnumerator()</Member>
+        <Member type="Method">IEnumerator IEnumerable.GetEnumerator()</Member>
+        <Member type="Method">public void Add(BasketItem newItem)</Member>
+        <Member type="Method">public void Clear()</Member>
         <Modifier>None</Modifier>
       </Entity>
     </Entities>
     <Relationships>
-      <Relationship type="Association" first="2" second="0">
+      <Relationship type="Association" first="1" second="0">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="2" second="3">
         <Label>
         </Label>
         <StartOrientation>Horizontal</StartOrientation>
@@ -252,7 +312,7 @@
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
-      <Relationship type="Association" first="1" second="0">
+      <Relationship type="Association" first="3" second="0">
         <Label>
         </Label>
         <StartOrientation>Horizontal</StartOrientation>

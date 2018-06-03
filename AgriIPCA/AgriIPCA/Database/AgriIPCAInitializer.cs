@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using AgriIPCA.Models.Products;
+using AgriIPCA.Models.Purchases;
 using AgriIPCA.Models.Users;
 
 namespace AgriIPCA.Database
@@ -31,6 +32,19 @@ namespace AgriIPCA.Database
             DairyProduct cheese = new DairyProduct("Alpy", 7, 30, new DateTime(2018, 7, 12));
             context.Products.Add(cheese);
 
+            context.SaveChanges();
+
+            Purchase p1 = new Purchase(cheese.Id, defaultUser.Id, DateTime.Now, 10, 7.23m);
+            Purchase p2 = new Purchase(milk.Id, defaultUser.Id, DateTime.Now, 100, 0.43m);
+            Purchase p3 = new Purchase(wheat.Id, defaultUser.Id, new DateTime(2018, 5, 10), 10, 0.27m);
+            Purchase p4 = new Purchase(cheese.Id, defaultUser.Id, new DateTime(2018, 4, 8), 2, 6.99m);
+            Purchase p5 = new Purchase(meat.Id, defaultUser.Id, new DateTime(2018, 6, 1), 10, 6.58m);
+
+            context.Purchases.Add(p1);
+            context.Purchases.Add(p2);
+            context.Purchases.Add(p3);
+            context.Purchases.Add(p4);
+            context.Purchases.Add(p5);
             context.SaveChanges();
         }
     }
