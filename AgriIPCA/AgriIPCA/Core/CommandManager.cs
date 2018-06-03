@@ -196,7 +196,7 @@ namespace AgriIPCA.Core
             output.AppendLine("Enter: ");
             output.AppendLine("-- 'product [product id]' to see its details");
             output.AppendLine(
-                "-- 'sort [asc or desc]' to show products in ascending or descening order, depending on the price");
+                "-- 'sort [asc or desc]' to show products in ascending or descending order, depending on the price");
             output.AppendLine("-- 'top10' to show top buying products");
             output.AppendLine("-- 'empty basket' to empty your basket");
 
