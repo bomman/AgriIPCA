@@ -49,6 +49,7 @@ namespace AgriIPCA.Core
                     break;
                 case "6":
                     this.writer.Write("You have successfully logged out.");
+                    isLoggedIn = false;
                     break;
                 case "7":
                 case "exit":
